@@ -6,6 +6,8 @@ def index(request):
     num_department = Department.objects.all().count()
     num_mentors = Profile.objects.filter(role_of_user__icontains='mentor').count()
     return render(request, 'index.html',
-                  context={'num_working_student':num_working_student,
-                           'num_department':num_department,
-                           'num_mentors':num_mentors})
+                  context={'num_working_student': num_working_student,
+                           'num_department': num_department,
+                           'num_mentors': num_mentors})
+
+#class StudentListView()

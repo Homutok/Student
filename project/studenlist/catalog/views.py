@@ -2,7 +2,8 @@ from django.shortcuts import render
 from .models import Student, Profile, Comment, Department,University
 from django.views import generic
 from django.http import Http404
-
+from .forms import FilterStudentForm
+from django.db.models import Q
 
 # Create your views here.
 def index(request):
@@ -21,6 +22,12 @@ class StudentListView(generic.ListView):
     context_object_name = 'student_list'
     template_name = 'catalog/student_list.html'
 
+    #def get_queryset(self): # новый
+    #    query = self.request.GET.get('q')
+    #    student_list = Student.objects.filter(
+    #        Q(student_name__icontains=query) | Q(status__icontains=query)
+    #    )
+    #    return student_list
 
 class StudentDetailView(generic.DetailView):
     model = Student
@@ -28,9 +35,7 @@ class StudentDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comment_data'] = Comment.objects.filter(student_id=self.object)
-        context['university_data'] = University
-
+        context['comment_data'] = Comment.objects.filter(comment=self.object)
         return context
 
     def guide_detail_view(request, pk):
@@ -41,7 +46,7 @@ class StudentDetailView(generic.DetailView):
         return render(
             request,
             'catalog/student_detail.html',
-            context={'student_id': student_id, }
+            context={'guide': student_id, }
         )
 
 
@@ -54,10 +59,10 @@ class UniversityListView(generic.ListView):
     def get_queryset(self):
         return University.objects.order_by('name_of_university')
 
-
 class UniversityDetailView(generic.DetailView):
     model = University
     template_name = 'catalog/university_detail.html'
+    paginate_by = 10
 
 
 # Просмотр отделов
@@ -73,8 +78,18 @@ class DepartmentListView(generic.ListView):
 class DepartmentDetailView(generic.DetailView):
     model = Department
     template_name = 'catalog/department_detail.html'
+    paginate_by = 10
 
-    #def get_context_data(self, **kwargs):
-    #    context = super().get_context_data(**kwargs)
-    #    context['borrowed'] = True
-    #    return context
+
+def filter_students(request):
+    if request.method == "POST":
+        form = FilterStudentForm(request.POST)
+        if form.is_valid():  # All validation rules pass
+            student_name = form.cleaned_data['student_name']
+            faculty = form.cleaned_data['faculty']
+            status = form.cleaned_data['status']
+
+            return render(request, 'catalog/student_list.html', {'form': form})
+    else:
+        form = FilterStudentForm()
+    return render(request, 'catalog/student_list.html', {'form': form})

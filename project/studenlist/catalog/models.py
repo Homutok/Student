@@ -42,7 +42,7 @@ class Student(models.Model):
 class Comment(models.Model):
     comment = models.CharField(max_length=200,db_index=True)
 
-    mentor_id = models.ForeignKey('Profile',on_delete=models.PROTECT,null=True)
+    mentor_id = models.OneToOneField(User, on_delete=models.CASCADE)
     student_id = models.ForeignKey('Student',on_delete=models.PROTECT,null=True)
 
     def __str__(self):
@@ -54,9 +54,9 @@ class Profile(models.Model):
     role_of_user = models.CharField(max_length=100,db_index=True)
 
     department_id = models.ForeignKey('Department',on_delete=models.PROTECT,null=True)
-
     def __str__(self):
-        return self.role_of_user
+        return self.user.__str__()
+
 
 
 @receiver(post_save, sender=User)

@@ -23,7 +23,7 @@ class Student(models.Model):
         (FIRED, 'Уволен'),
     )
     status = models.CharField(max_length=50, choices=LOAN_STATUS, blank=True, default='s', help_text='статус ученика')
-    summary = models.CharField(max_length=1000, db_index=True)
+    summary = models.CharField(max_length=1000, db_index=True,null=True)
 
     mentor_id = models.ForeignKey('Profile', on_delete=models.PROTECT, null=True)
     department_id = models.ForeignKey('Department', on_delete=models.PROTECT, null=True)
@@ -97,6 +97,10 @@ def create_user_profile(sender, instance, created, **kwargs):
 # Класс отдела
 class Department(models.Model):
     department_name = models.CharField(max_length=100, db_index=True)
+    summary = models.CharField(max_length=1000, db_index=True,null=True)
+
+    def get_absolute_url(self):
+        return reverse('department-detail', args=[str(self.id)])
 
     def __str__(self):
         return self.department_name

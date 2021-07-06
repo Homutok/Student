@@ -52,29 +52,28 @@ class UniversityListView(generic.ListView):
     def get_queryset(self):
         return University.objects.order_by('name_of_university')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['borrowed'] = True
-        return context
-
 class UniversityDetailView(generic.DetailView):
     model = University
     template_name = 'catalog/university_detail.html'
     paginate_by = 10
 
-    def get_queryset(self):
-        return University.objects.order_by('name_of_university')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['borrowed'] = True
-        return context
-
 
 # Просмотр отделов
 class DepartmentListView(generic.ListView):
-    pass
+    model = Department
+    template_name = 'catalog/department_list.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Department.objects.order_by('department_name')
 
 
 class DepartmentDetailView(generic.DetailView):
-    pass
+    model = Department
+    template_name = 'catalog/department_detail.html'
+    paginate_by = 10
+
+    #def get_context_data(self, **kwargs):
+    #    context = super().get_context_data(**kwargs)
+    #    context['borrowed'] = True
+    #    return context

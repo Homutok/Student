@@ -38,6 +38,12 @@ class Student(models.Model):
                     (today.month, today.day) < (self.begin_of_study.month, self.begin_of_study.day))
         return 0
 
+    class Meta:
+        ordering = ['student_name']
+
+    def get_absolute_url(self):
+        return reverse('student-detail', args=[str(self.id)])
+
     def __str__(self):
         return self.student_name
 

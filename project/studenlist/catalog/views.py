@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Student, Profile, Comment, Department
 from django.views import generic
+from django.http import Http404
 
 
 # Create your views here.
@@ -16,11 +17,30 @@ def index(request):
 
 # Просмотр страницы с студентами
 class StudentListView(generic.ListView):
-    pass
+    model = Student
+    context_object_name = 'student_list'
+    template_name = 'catalog/student_list.html'
 
 
 class StudentDetailView(generic.DetailView):
-    pass
+    model = Student
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comment_data'] = Comment.objects.filter(comment=self.object)
+        print(context)
+        return context
+
+    def guide_detail_view(request, pk):
+        try:
+            student_id = Student.objects.get(pk=pk)
+        except Student.DoesNotExist:
+            raise Http404(" Записи не сщуествет ¯\_(ツ)_/¯ ")
+        return render(
+            request,
+            'catalog/student_detail.html',
+            context={'guide': student_id, }
+        )
 
 
 # Просмотр списка университетов

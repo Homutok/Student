@@ -58,7 +58,6 @@ class University(models.Model):
         return self.name_of_university
 
 
-
 class Faculty(models.Model):
     faculty_name = models.CharField(max_length=200, db_index=True)
     university_id = models.ForeignKey('University',related_name='faculty_of_university', on_delete=models.PROTECT, null=True)

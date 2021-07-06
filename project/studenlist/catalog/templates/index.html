@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Картотека стажеров</h1>
+
+<h2>Количество записей</h2>
+
+  <p>Список:</p>
+  <ul>
+    <li><strong>Работающие студенты:</strong> {{ num_working_student }}</li>
+    <li><strong>Количество отделов:</strong> {{ num_department }}</li>
+    <li><strong>Количество наставников:</strong> {{ num_mentors }}</li>
+  </ul>
+
+{% endblock %}

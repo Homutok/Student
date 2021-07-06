@@ -10,7 +10,7 @@ import datetime
 class Student(models.Model):
     student_name = models.CharField(max_length=100, db_index=True)
     date_of_birth = models.DateField(null=True, blank=True)
-    faculty = models.ForeignKey('Faculty', on_delete=models.PROTECT, null=True)
+    faculty = models.ForeignKey('Faculty', on_delete=models.PROTECT, null=True, related_name='faculty_of_student')
 
     STUDY = 'study'
     DEDUCTED = 'deducted'
@@ -22,11 +22,11 @@ class Student(models.Model):
         (WORK, 'Работает'),
         (FIRED, 'Уволен'),
     )
-    status = models.CharField(max_length=50, choices=LOAN_STATUS, blank=True, default='s', help_text='статус ученика')
-    summary = models.CharField(max_length=1000, db_index=True,null=True)
+    status = models.CharField(max_length=50, choices=LOAN_STATUS, blank=True, default='study', help_text='статус ученика')
+    summary = models.CharField(max_length=1000, db_index=True, null=True)
 
-    mentor_id = models.ForeignKey('Profile', on_delete=models.PROTECT, null=True)
-    department_id = models.ForeignKey('Department', on_delete=models.PROTECT, null=True)
+    mentor = models.ForeignKey('Profile', on_delete=models.PROTECT, null=True, related_name='mentor_of_student')
+    department = models.ForeignKey('Department', on_delete=models.PROTECT, null=True, related_name='department_of_job')
 
     begin_of_study = models.DateField(null=True, blank=True)
 
@@ -60,7 +60,7 @@ class University(models.Model):
 
 class Faculty(models.Model):
     faculty_name = models.CharField(max_length=200, db_index=True)
-    university_id = models.ForeignKey('University',related_name='faculty_of_university', on_delete=models.PROTECT, null=True)
+    university = models.ForeignKey('University', related_name='faculty_of_university', on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return self.faculty_name
@@ -69,9 +69,8 @@ class Faculty(models.Model):
 # Модель комментариев
 class Comment(models.Model):
     comment = models.CharField(max_length=300, db_index=True)
-
-    mentor_id = models.OneToOneField(User, on_delete=models.CASCADE)
-    student_id = models.ForeignKey('Student', on_delete=models.PROTECT, null=True)
+    mentor = models.OneToOneField(User, on_delete=models.CASCADE)
+    student = models.ForeignKey('Student', on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return self.comment
@@ -81,7 +80,7 @@ class Comment(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role_of_user = models.CharField(max_length=100, db_index=True)
-    department_id = models.ForeignKey('Department', on_delete=models.PROTECT, null=True)
+    department = models.ForeignKey('Department', on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return self.user.__str__()

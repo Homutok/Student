@@ -28,9 +28,9 @@ class StudentDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comment_data'] = Comment.objects.filter(comment=self.object)
+        context['comment_data'] = Comment.objects.filter(student_id=self.object)
+        context['university_data'] = University
 
-        print(context)
         return context
 
     def guide_detail_view(request, pk):
@@ -41,7 +41,7 @@ class StudentDetailView(generic.DetailView):
         return render(
             request,
             'catalog/student_detail.html',
-            context={'guide': student_id, }
+            context={'student_id': student_id, }
         )
 
 
@@ -54,10 +54,10 @@ class UniversityListView(generic.ListView):
     def get_queryset(self):
         return University.objects.order_by('name_of_university')
 
+
 class UniversityDetailView(generic.DetailView):
     model = University
     template_name = 'catalog/university_detail.html'
-    paginate_by = 10
 
 
 # Просмотр отделов
@@ -73,7 +73,6 @@ class DepartmentListView(generic.ListView):
 class DepartmentDetailView(generic.DetailView):
     model = Department
     template_name = 'catalog/department_detail.html'
-    paginate_by = 10
 
     #def get_context_data(self, **kwargs):
     #    context = super().get_context_data(**kwargs)

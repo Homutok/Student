@@ -7,21 +7,21 @@
     <hr>
     <b>Общая информация:</b>
     <ul>
-        <!--<li>Университет: {{university_data}}}</li> -->
+        <li>Университет: {{student.faculty.university}}    </li>
         <li>Факультет: {{student.faculty}}</li>
         <li>Начал обучение в {{student.begin_of_study}}</li>
         <li>Курс: {{student.calculate_course}}</li>
-        <li>На данный момент : {{student.status}}</li>
-        <li>Наставник : {{student.mentor_id}}</li>
-        <li>Отдел : {{student.department_id}}</li>
+        <li>На данный момент : {{student.get_status_display}}</li>
+        <li>Наставник : {{student.mentor}}</li>
+        <li>Отдел : <a href="{{ student.department.get_absolute_url }}"> {{student.department.department_name}}</a></li>
     </ul>
     <hr>
     <h3>Красткое описание</h3><br>
     {{student.summary}}
     <hr>
-    <h3> Комментарии </h3> <br>
+    <h3> Комментарии </h3>
     {% for comment in  comment_data %}
-      <h5>({{comment_data.mentor_id}})    {{comment_data}}</h5>
+      <h5>({{comment.mentor}})    {{comment}}</h5>
     {% endfor %}
 
 {% endblock %}

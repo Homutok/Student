@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Student, Profile, Comment, Department
+from .models import Student, Profile, Comment, Department,University
 from django.views import generic
 from django.http import Http404
 
@@ -45,11 +45,30 @@ class StudentDetailView(generic.DetailView):
 
 # Просмотр списка университетов
 class UniversityListView(generic.ListView):
-    pass
+    model = University
+    template_name = 'catalog/university_list.html'
+    paginate_by = 10
 
+    def get_queryset(self):
+        return University.objects.order_by('name_of_university')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['borrowed'] = True
+        return context
 
 class UniversityDetailView(generic.DetailView):
-    pass
+    model = University
+    template_name = 'catalog/university_detail.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return University.objects.order_by('name_of_university')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['borrowed'] = True
+        return context
 
 
 # Просмотр отделов

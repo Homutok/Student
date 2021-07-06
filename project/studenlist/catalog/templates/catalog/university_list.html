@@ -1,4 +1,19 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+    <h1>University List</h1>
+
+    {% if university_list %}
+    <ul>
+
+      {% for university in university_list %}
+      <li>
+        <a href="{{ university.get_absolute_url }}">{{ university.name_of_university }}</a>
+      </li>
+      {% endfor %}
+
+    </ul>
+    {% else %}
+      <p>There are no university.</p>
+    {% endif %}
 {% endblock %}

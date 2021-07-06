@@ -45,13 +45,17 @@ class Student(models.Model):
 class University(models.Model):
     name_of_university = models.CharField(max_length=100, db_index=True)
 
+    def get_absolute_url(self):
+        return reverse('university-detail', args=[str(self.id)])
+
     def __str__(self):
         return self.name_of_university
 
 
+
 class Faculty(models.Model):
     faculty_name = models.CharField(max_length=200, db_index=True)
-    university_id = models.ForeignKey('University', on_delete=models.PROTECT, null=True)
+    university_id = models.ForeignKey('University',related_name='faculty_of_university', on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return self.faculty_name

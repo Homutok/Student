@@ -1,7 +1,16 @@
 {% extends "base_generic.html" %}
-
+{% load static %}
+{% block jsblock %}
+    <script type="text/javascript" src="{% static 'js/filter_students.js' %}" defer></script>
+{% endblock %}
 {% block content %}
     <h1>Список студентов</h1>
+    <form  action="{% url 'student' %}" method="get" class="filter_students_form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input name="q" type="text" placeholder="Search...">
+        <button type="submit" class="save btn btn-default">Send</button>
+    </form>
     {% if student_list  %}
         <div class = "student_list">
             {%for student in  student_list  %}

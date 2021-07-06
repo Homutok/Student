@@ -98,5 +98,6 @@ def create_user_profile(sender, instance, created, **kwargs):
 class Department(models.Model):
     department_name = models.CharField(max_length=100, db_index=True)
 
+
     def __str__(self):
         return self.department_name

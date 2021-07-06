@@ -24,10 +24,12 @@ class StudentListView(generic.ListView):
 
 class StudentDetailView(generic.DetailView):
     model = Student
+    context_object_name = 'student'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['comment_data'] = Comment.objects.filter(comment=self.object)
+
         print(context)
         return context
 

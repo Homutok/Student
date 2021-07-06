@@ -5,9 +5,9 @@
     {% if student_list  %}
         <div class = "student_list">
             {%for student in  student_list  %}
-                <div class="questionsblock">
-                    <h4><a href="{{ student.get_absolute_url }}">{{student.student_name}}</a></h4>
-                </div>
+                 <ul>
+                     <li><h4><a href="{{ student.get_absolute_url }}">{{student.student_name}}</a></h4></li>
+                 </ul>
             {% endfor %}
         </div>
     {%else%}

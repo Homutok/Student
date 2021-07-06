@@ -22,7 +22,7 @@ class Student(models.Model):
         (WORK, 'Работает'),
         (FIRED, 'Уволен'),
     )
-    status = models.CharField(max_length=10, choices=LOAN_STATUS, blank=True, default='s', help_text='статус ученика')
+    status = models.CharField(max_length=50, choices=LOAN_STATUS, blank=True, default='s', help_text='статус ученика')
     summary = models.CharField(max_length=1000, db_index=True)
 
     mentor_id = models.ForeignKey('Profile', on_delete=models.PROTECT, null=True)
@@ -59,7 +59,7 @@ class Faculty(models.Model):
 
 # Модель комментариев
 class Comment(models.Model):
-    comment = models.CharField(max_length=200, db_index=True)
+    comment = models.CharField(max_length=300, db_index=True)
 
     mentor_id = models.OneToOneField(User, on_delete=models.CASCADE)
     student_id = models.ForeignKey('Student', on_delete=models.PROTECT, null=True)
@@ -72,7 +72,6 @@ class Comment(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role_of_user = models.CharField(max_length=100, db_index=True)
-
     department_id = models.ForeignKey('Department', on_delete=models.PROTECT, null=True)
 
     def __str__(self):

@@ -20,8 +20,14 @@
     <div class="row">
       <div class="col-sm-2">
       {% block sidebar %}
+          <h2>Навигация</h2><hr>
       <ul class="sidebar-nav">
-          <li><a href="{% url 'index' %}">Главная страница</a></li>
+          <li><a href="{% url 'index' %}">Статистика</a></li>
+          <li><a href="{% url 'index' %}">Список студентов</a></li>
+          <li><a href="{% url 'index' %}">Список отделов</a></li>
+          <li><a href="{% url 'index' %}">Список Университетов</a></li>
+          <hr>
+          <li><a href="{% url 'index' %}">Мои студенты</a></li>
       </ul>
      {% endblock %}
       </div>

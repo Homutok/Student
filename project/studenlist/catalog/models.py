@@ -6,22 +6,23 @@ from django.dispatch import receiver
 import datetime
 
 
-#Модель студента
+# Модель студента
 class Student(models.Model):
-    student_name = models.CharField(max_length=100,db_index=True)
+    student_name = models.CharField(max_length=100, db_index=True)
     date_of_birth = models.DateField(null=True, blank=True)
-    place_of_study = models.CharField(max_length=200, db_index=True)
-    faculty = models.CharField(max_length=200, db_index=True)
+    faculty = models.ForeignKey('Faculty', on_delete=models.PROTECT, null=True)
 
     STUDY = 'study'
-
+    DEDUCTED = 'deducted'
+    WORK = 'work'
+    FIRED = 'fired'
     LOAN_STATUS = (
         (STUDY, 'Учится'),
-        ('n', 'Отчислен'),
-        ('w', 'Работает'),
-        ('nw', 'Уволен'),
+        (DEDUCTED, 'Отчислен'),
+        (WORK, 'Работает'),
+        (FIRED, 'Уволен'),
     )
-    status = models.CharField(max_length=2, choices=LOAN_STATUS, blank=True, default='s', help_text='статус ученика')
+    status = models.CharField(max_length=10, choices=LOAN_STATUS, blank=True, default='s', help_text='статус ученика')
     summary = models.CharField(max_length=1000, db_index=True)
 
     mentor_id = models.ForeignKey('Profile', on_delete=models.PROTECT, null=True)
@@ -29,20 +30,34 @@ class Student(models.Model):
 
     begin_of_study = models.DateField(null=True, blank=True)
 
-
     @property
     def calculate_course(self):
         if self.begin_of_study:
             today = datetime.date.today()
             return today.year - self.begin_of_study.year - (
-                        (today.month, today.day) < (self.begin_of_study.month, self.begin_of_study.day))
+                    (today.month, today.day) < (self.begin_of_study.month, self.begin_of_study.day))
         return 0
 
     def __str__(self):
         return self.student_name
 
 
-#Модель комментариев
+class University(models.Model):
+    name_of_university = models.CharField(max_length=100, db_index=True)
+
+    def __str__(self):
+        return self.name_of_university
+
+
+class Faculty(models.Model):
+    faculty_name = models.CharField(max_length=200, db_index=True)
+    university_id = models.ForeignKey('University', on_delete=models.PROTECT, null=True)
+
+    def __str__(self):
+        return self.faculty_name
+
+
+# Модель комментариев
 class Comment(models.Model):
     comment = models.CharField(max_length=200, db_index=True)
 
@@ -53,12 +68,12 @@ class Comment(models.Model):
         return self.comment
 
 
-#Расширение стандартного пользователя
+# Расширение стандартного пользователя
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role_of_user = models.CharField(max_length=100, db_index=True)
 
-    department_id = models.ForeignKey('Department',on_delete=models.PROTECT,null=True)
+    department_id = models.ForeignKey('Department', on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return self.user.__str__()
@@ -70,7 +85,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance)
 
 
-#Класс отдела
+# Класс отдела
 class Department(models.Model):
     department_name = models.CharField(max_length=100, db_index=True)
 

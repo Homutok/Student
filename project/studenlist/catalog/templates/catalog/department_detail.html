@@ -1,0 +1,11 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>{{ department.department_name }}</h1>
+
+
+    <div>Список студентов</div>
+    <div id="faculty_list_of_university">Список факультетов</div>
+    {{ department.summary }}
+
+{% endblock %}

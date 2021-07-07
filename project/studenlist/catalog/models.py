@@ -9,6 +9,7 @@ import datetime
 # Модель студента
 class Student(models.Model):
     student_name = models.CharField(max_length=100, db_index=True)
+    student_photo = models.ImageField(upload_to='', height_field=None, width_field=None, max_length=100, null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     faculty = models.ForeignKey('Faculty', on_delete=models.PROTECT, null=True, related_name='faculty_of_student')
 
@@ -22,7 +23,8 @@ class Student(models.Model):
         (WORK, 'Работает'),
         (FIRED, 'Уволен'),
     )
-    status = models.CharField(max_length=50, choices=LOAN_STATUS, blank=True, default='study', help_text='статус ученика')
+    status = models.CharField(max_length=50, choices=LOAN_STATUS, blank=True, default='study', help_text='статус '
+                                                                                                         'ученика')
     summary = models.CharField(max_length=1000, db_index=True, null=True)
 
     mentor = models.ForeignKey('Profile', on_delete=models.PROTECT, null=True, related_name='mentor_of_student')
@@ -34,7 +36,7 @@ class Student(models.Model):
     def calculate_course(self):
         if self.begin_of_study:
             today = datetime.date.today()
-            return today.year - self.begin_of_study.year - (
+            return 1 + today.year - self.begin_of_study.year - (
                     (today.month, today.day) < (self.begin_of_study.month, self.begin_of_study.day))
         return 0
 
@@ -60,10 +62,10 @@ class University(models.Model):
 
 class Faculty(models.Model):
     faculty_name = models.CharField(max_length=200, db_index=True)
-    university = models.ForeignKey('University', related_name='faculty_of_university', on_delete=models.PROTECT, null=True)
+    university = models.ForeignKey('University', related_name='faculty_of_university', on_delete=models.PROTECT,null=True,)
 
     def __str__(self):
-        return self.faculty_name
+        return '%s (%s)' % (self.faculty_name, self.university)
 
 
 # Модель комментариев
@@ -79,7 +81,20 @@ class Comment(models.Model):
 # Расширение стандартного пользователя
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    role_of_user = models.CharField(max_length=100, db_index=True)
+
+    ADMIN = 'admin'
+    MODERATOR = 'moderator'
+    MENTOR = 'mentor'
+    LEADER = 'leader'
+    GUEST = 'guest'
+    LOAN_ROLE = (
+        (ADMIN, 'Админ'),
+        (MODERATOR, 'Модератор'),
+        (MENTOR, 'Наставник'),
+        (LEADER, 'Руководитель'),
+        (GUEST, 'Гость')
+    )
+    role_of_user = models.CharField(max_length=100, choices=LOAN_ROLE, db_index=True)
     department = models.ForeignKey('Department', on_delete=models.PROTECT, null=True)
 
     def __str__(self):
@@ -95,7 +110,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 # Класс отдела
 class Department(models.Model):
     department_name = models.CharField(max_length=100, db_index=True)
-    summary = models.CharField(max_length=1000, db_index=True,null=True)
+    summary = models.CharField(max_length=1000, db_index=True, null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse('department-detail', args=[str(self.id)])

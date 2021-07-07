@@ -1,14 +1,21 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+{% load static %}
     <h3>Студент :</h3>
     <h2>{{ student.student_name }}</h2>
-    Дата рождения:{{student.date_of_birth}}
+    {%if student.student_photo %}
+        <img src="{{ student.student_photo.url }}" class = "border" width="200" height="200">
+    {%else%}
+        <img src="{% static 'images/no_photo.png'%}" class = "border" width="200" height="200">
+    {%endif%}
+    <hr>
+    <b>Дата рождения:</b>{{student.date_of_birth}}
     <hr>
     <b>Общая информация:</b>
     <ul>
-        <li>Университет: {{student.faculty.university}}    </li>
-        <li>Факультет: {{student.faculty}}</li>
+        <li>Университет: <a href="{{ student.faculty.university.get_absolute_url }}"> {{student.faculty.university}}</a></li>
+        <li>Факультет: {{student.faculty.faculty_name}}</li>
         <li>Начал обучение в {{student.begin_of_study}}</li>
         <li>Курс: {{student.calculate_course}}</li>
         <li>На данный момент : {{student.get_status_display}}</li>

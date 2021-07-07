@@ -107,8 +107,8 @@ def create_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance)
 
 
-# Класс отдела
 class Department(models.Model):
+    """Класс отдела"""
     department_name = models.CharField(max_length=100, db_index=True)
     summary = models.CharField(max_length=1000, db_index=True, null=True, blank=True)
 

@@ -1,7 +1,12 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1>{{ department.department_name }}</h1>
+    <h1>{{ department.department_name }}
+        {% if user.is_authenticated %}
+           <a class="btn btn-default" href="{% url 'department_update' pk=department.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+           <a class="btn btn-default" href="{% url 'department_delete' pk=department.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+       {% endif %}
+    </h1>
 
 
     <div>Список студентов</div>

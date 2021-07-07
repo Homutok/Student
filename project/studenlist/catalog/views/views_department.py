@@ -1,5 +1,7 @@
 from ..models import Department
 from django.views import generic
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 
 class DepartmentListView(generic.ListView):
@@ -14,3 +16,15 @@ class DepartmentListView(generic.ListView):
 class DepartmentDetailView(generic.DetailView):
     model = Department
     template_name = '../templates/catalog/department_detail.html'
+
+class DepartmentCreate(CreateView):
+    model = Department
+    fields = '__all__'
+
+class DepartmentUpdate(UpdateView):
+    model = Department
+    fields = '__all__'
+
+class DepartmentDelete(DeleteView):
+    model = Department
+    success_url = reverse_lazy('departments')

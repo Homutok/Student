@@ -10,6 +10,11 @@ urlpatterns = [
     re_path(r'^student/(?P<pk>\d+)$', views_student.StudentDetailView.as_view(), name='student-detail'),
 ]
 urlpatterns += [
+    re_path(r'^student/create/$', views_student.StudentCreate.as_view(), name='student_create'),
+    re_path(r'^student/(?P<pk>\d+)/update/$', views_student.StudentUpdate.as_view(), name='student_update'),
+    re_path(r'^student/(?P<pk>\d+)/delete/$', views_student.StudentDelete.as_view(), name='student_delete'),
+]
+urlpatterns += [
     re_path(r'^universities/$', views_university.UniversityListView.as_view(), name='university'),
     re_path(r'^university/(?P<pk>\d+)$', views_university.UniversityDetailView.as_view(), name='university-detail'),
 ]

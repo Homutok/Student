@@ -5,6 +5,7 @@
 {% endblock %}
 {% block content %}
     <h1>Список студентов</h1>
+    <a href="{% url 'student_create' %}">[+]</a>
     <form  action="{% url 'student' %}" method="get" class="filter_students_form">
         {% csrf_token %}
         <!--{{ form.as_p }}-->

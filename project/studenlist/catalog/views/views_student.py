@@ -20,7 +20,9 @@ class StudentListView(generic.ListView,generic.FormView):
             Q(student_name__icontains = query) | Q(status__icontains = query)
         )
         return student_list
-
+from django.db.models import Q
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 class StudentDetailView(generic.DetailView):
     model = Student
@@ -41,6 +43,24 @@ class StudentDetailView(generic.DetailView):
             '../catalog/student_detail.html',
             context={'guide': student_id, }
         )
+
+
+class StudentCreate(CreateView):
+    """Добавление Студента"""
+    model = Student
+    fields = '__all__'
+
+
+class StudentUpdate(UpdateView):
+    """Редактирование Студента"""
+    model = Student
+    fields = '__all__'
+
+
+class StudentDelete(DeleteView):
+    """Удаление Студента"""
+    model = Student
+    success_url = reverse_lazy('student')
 
 
 def filter_students(request):

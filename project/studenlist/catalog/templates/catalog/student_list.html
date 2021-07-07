@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
     <h1>Список студентов</h1>
-    <a href="{% url 'student_create' %}">[+]</a>
+    <a class="btn btn-default" href="{% url 'student_create' %}"><span class="glyphicon glyphicon-plus"></span></a>
     <form  action="{% url 'student' %}" method="get" class="filter_students_form">
         {% csrf_token %}
         <!--{{ form.as_p }}-->

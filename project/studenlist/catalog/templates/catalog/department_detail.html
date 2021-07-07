@@ -7,10 +7,9 @@
            <a class="btn btn-default" href="{% url 'department_delete' pk=department.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
        {% endif %}
     </h1>
-
-
-    <div>Список студентов</div>
-    <div id="faculty_list_of_university">Список факультетов</div>
+    <h2>Описание</h2>
+    <div id="faculty_list_of_university">
     {{ department.summary }}
+    </div>
 
 {% endblock %}

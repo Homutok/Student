@@ -1,8 +1,12 @@
 from django.shortcuts import render
 from ..models import Student, Profile, Department
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.auth import login, authenticate
 
 
-# Create your views here.
 def index(request):
     num_working_student = Student.objects.filter(status__exact='study').count()
     num_department = Department.objects.all().count()
@@ -11,3 +15,27 @@ def index(request):
                   context={'num_working_student': num_working_student,
                            'num_department': num_department,
                            'num_mentors': num_mentors})
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('/catalog/')
+    else:
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})
+
+
+class ProfilesUpdate(UpdateView):
+    model = User
+    fields = ['username', 'first_name', 'last_name', 'email']
+    template_name = 'catalog/profile_form.html'
+
+    def get_absolute_url(self):
+        return redirect('/catalog/')

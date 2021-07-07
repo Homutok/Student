@@ -6,7 +6,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     re_path(r'^$', views.index, name='index'),
     re_path(r'^students/$', views.StudentListView.as_view(), name='student'),
-    #re_path(r'^students/$', views.filter_students, name='tets_filter'),
     re_path(r'^student/(?P<pk>\d+)$', views.StudentDetailView.as_view(), name='student-detail'),
 ]
 urlpatterns += [

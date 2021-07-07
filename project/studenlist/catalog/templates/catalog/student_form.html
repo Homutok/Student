@@ -1,13 +1,18 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+    {% if user.profile_of_user.is_not_guest %}
+            <a class="btn btn-default" href="{% url 'student_create' %}"><span class="glyphicon glyphicon-plus"></span></a>
 
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <table>
-    {{ form.as_table }}
-    </table>
-    <input type="submit" value="Submit" />
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+            {{ form.as_table }}
+            </table>
+            <input type="submit" value="Submit" />
 
-</form>
+        </form>
+    {% else %}
+        У Вас нет доступа, тикай обратно.
+    {% endif %}
 {% endblock %}

@@ -4,8 +4,12 @@
     <script type="text/javascript" src="{% static 'js/filter_students.js' %}" defer></script>
 {% endblock %}
 {% block content %}
-    <h1>Список студентов</h1>
-    <a class="btn btn-default" href="{% url 'student_create' %}"><span class="glyphicon glyphicon-plus"></span></a>
+    <h1>Список студентов
+        {% if user.profile_of_user.is_not_guest %}
+            <a class="btn btn-default" href="{% url 'student_create' %}"><span class="glyphicon glyphicon-plus"></span></a>
+        {% endif %}
+    </h1>
+
     <form  action="{% url 'student' %}" method="get" class="filter_students_form">
         {% csrf_token %}
         <!--{{ form.as_p }}-->

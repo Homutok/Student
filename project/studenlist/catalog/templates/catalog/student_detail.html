@@ -4,8 +4,12 @@
 {% load static %}
 
     <h3>Студент :</h3>
-<h2>{{ student.student_name }}<a class="btn btn-default" href="{% url 'student_update' student.id%}"><span class="glyphicon glyphicon-pencil"></span>
-    </a><a class="btn btn-default" href="{% url 'student_delete' student.id%}"><span class="glyphicon glyphicon-remove"></a></h2>
+<h2>{{ student.student_name }}
+     {% if user.profile_of_user.is_not_guest %}
+        <a class="btn btn-default" href="{% url 'student_update' student.id%}"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a class="btn btn-default" href="{% url 'student_delete' student.id%}"><span class="glyphicon glyphicon-remove"></span></a>
+    {% endif %}
+</h2>
     {%if student.student_photo %}
         <img src="{{ student.student_photo.url }}" class = "border" width="200" height="200">
     {%else%}

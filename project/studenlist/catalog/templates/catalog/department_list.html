@@ -2,8 +2,8 @@
 
 {% block content %}
     <h1>Department List
-         {% if user.is_authenticated %}
-            <a title="create new department" href="{% url 'department_create' %}" class="top-menu"><span class="glyphicon glyphicon-plus" ></span></a>
+         {% if user.profile_of_user.is_not_guest_and_mentor  %}
+            <a class="btn btn-default"  title="create new department" href="{% url 'department_create' %}" class="top-menu"><span class="glyphicon glyphicon-plus" ></span></a>
        {% endif %}
     </h1>
 

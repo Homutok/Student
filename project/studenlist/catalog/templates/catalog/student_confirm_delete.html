@@ -1,14 +1,16 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+    {% if user.profile_of_user.is_not_guest %}
+        <h1>Удалить студента</h1>
 
-<h1>Удалить студента</h1>
+        <p>Удалить студента: {{ student }}?</p>
 
-<p>Удалить студента: {{ student }}?</p>
-
-<form action="" method="POST">
-  {% csrf_token %}
-  <input type="submit" value="Да, удалить." />
-</form>
-
+        <form action="" method="POST">
+          {% csrf_token %}
+          <input type="submit" value="Да, удалить." />
+        </form>
+    {% else %}
+        У Вас нет доступа, тикай обратно.
+    {% endif %}
 {% endblock %}

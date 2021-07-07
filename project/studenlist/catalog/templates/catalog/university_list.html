@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>University List
-        {% if user.is_authenticated %}
+        {% if user.profile_of_user.is_not_guest_and_mentor %}
             <a class="btn btn-default" title="create new university" href="{% url 'university_create' %}" class="top-menu"><span class="glyphicon glyphicon-plus" ></span></a>
        {% endif %}
     </h1>

@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>{{ university.name_of_university }}
-    {% if user.is_authenticated %}
+    {% if user.profile_of_user.is_not_guest_and_mentor %}
            <a class="btn btn-default" href="{% url 'university_update' pk=university.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
            <a class="btn btn-default" href="{% url 'university_delete' pk=university.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
        {% endif %}

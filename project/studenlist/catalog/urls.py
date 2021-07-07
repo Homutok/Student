@@ -17,4 +17,7 @@ urlpatterns += [
 urlpatterns += [
     re_path(r'^departments/$', views_department.DepartmentListView.as_view(), name='department'),
     re_path(r'^department/(?P<pk>\d+)$', views_department.DepartmentDetailView.as_view(), name='department-detail'),
+    re_path(r'^department/create/$', views_department.DepartmentCreate.as_view(), name='department_create'),
+    re_path(r'^department/(?P<pk>\d+)/update/$', views_department.DepartmentUpdate.as_view(), name='department_update'),
+    re_path(r'^department/(?P<pk>\d+)/delete/$', views_department.DepartmentDelete.as_view(), name='department_delete'),
 ]

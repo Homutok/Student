@@ -17,6 +17,9 @@ urlpatterns += [
 urlpatterns += [
     re_path(r'^universities/$', views_university.UniversityListView.as_view(), name='university'),
     re_path(r'^university/(?P<pk>\d+)$', views_university.UniversityDetailView.as_view(), name='university-detail'),
+    re_path(r'^university/create/$', views_university.UniversityCreate.as_view(), name='university_create'),
+    re_path(r'^university/(?P<pk>\d+)/update/$', views_university.UniversityUpdate.as_view(), name='university_update'),
+    re_path(r'^university/(?P<pk>\d+)/delete/$', views_university.UniversityDelete.as_view(), name='university_delete'),
 ]
 
 urlpatterns += [

@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Department List
          {% if user.is_authenticated %}
-            (<a title="create new department" href="{% url 'department_create' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>)
+            <a title="create new department" href="{% url 'department_create' %}" class="top-menu"><span class="glyphicon glyphicon-plus" ></span></a>
        {% endif %}
     </h1>
 

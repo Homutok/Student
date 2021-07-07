@@ -95,7 +95,7 @@ class Profile(models.Model):
         (GUEST, 'Гость')
     )
     role_of_user = models.CharField(max_length=100, choices=LOAN_ROLE, db_index=True)
-    department = models.ForeignKey('Department', on_delete=models.PROTECT, null=True)
+    department = models.ForeignKey('Department', on_delete=models.PROTECT, null=True,blank=True)
 
     def __str__(self):
         return self.user.__str__()

@@ -1,7 +1,12 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h1>{{ university.name_of_university }}</h1>
+<h1>{{ university.name_of_university }}
+    {% if user.is_authenticated %}
+           <a class="btn btn-default" href="{% url 'university_update' pk=university.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+           <a class="btn btn-default" href="{% url 'university_delete' pk=university.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+       {% endif %}
+</h1>
 
 
 <div>Список студентов</div>

@@ -3,20 +3,23 @@ from django.views import generic
 from django.shortcuts import render
 from django.http import Http404
 from ..forms import FilterStudentForm
-
+from django.db.models import Q
 
 # Просмотр страницы с студентами
-class StudentListView(generic.ListView):
+class StudentListView(generic.ListView,generic.FormView):
     model = Student
     context_object_name = 'student_list'
     template_name = '../catalog/student_list.html'
+    form_class = FilterStudentForm
 
-    # def get_queryset(self): # новый
-    #    query = self.request.GET.get('q')
-    #    student_list = Student.objects.filter(
-    #        Q(student_name__icontains=query) | Q(status__icontains=query)
-    #    )
-    #    return student_list
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query == None:
+            query=''
+        student_list = Student.objects.filter(
+            Q(student_name__icontains = query) | Q(status__icontains = query)
+        )
+        return student_list
 
 
 class StudentDetailView(generic.DetailView):

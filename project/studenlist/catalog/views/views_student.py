@@ -30,7 +30,7 @@ class StudentDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comment_data'] = Comment.objects.filter(comment=self.object)
+        context['comment_data'] = Comment.objects.filter(student=self.object)
         return context
 
     def guide_detail_view(request, pk):
@@ -60,6 +60,14 @@ class StudentUpdate(UpdateView):
 class StudentDelete(DeleteView):
     """Удаление Студента"""
     model = Student
+    success_url = reverse_lazy('student')
+
+
+class CommentCreate(CreateView):
+    """Добавление Комментария"""
+    model = Comment
+    fields = ['comment']
+
     success_url = reverse_lazy('student')
 
 

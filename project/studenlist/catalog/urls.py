@@ -15,6 +15,7 @@ urlpatterns += [
     re_path(r'^student/create/$', views_student.StudentCreate.as_view(), name='student_create'),
     re_path(r'^student/(?P<pk>\d+)/update/$', views_student.StudentUpdate.as_view(), name='student_update'),
     re_path(r'^student/(?P<pk>\d+)/delete/$', views_student.StudentDelete.as_view(), name='student_delete'),
+    re_path(r'^student/(?P<pk>\d+)/comment/$', views_student.CommentCreate.as_view(), name='comment_create'),
 ]
 urlpatterns += [
     re_path(r'^universities/$', views_university.UniversityListView.as_view(), name='university'),

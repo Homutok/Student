@@ -28,7 +28,8 @@
     <h3>Красткое описание</h3><br>
     {{student.summary}}
     <hr>
-    <h3> Комментарии </h3>
+    <h3> Комментарии <a class="btn btn-default" href="{% url 'comment_create' student.id%}"><span class="glyphicon glyphicon-plus"></span></a> </h3>
+
     {% for comment in  comment_data %}
       <h5>({{comment.mentor}})    {{comment}}</h5>
     {% endfor %}

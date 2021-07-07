@@ -71,7 +71,7 @@ class Faculty(models.Model):
 # Модель комментариев
 class Comment(models.Model):
     comment = models.CharField(max_length=300, db_index=True)
-    mentor = models.OneToOneField(User, on_delete=models.CASCADE)
+    mentor = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     student = models.ForeignKey('Student', on_delete=models.PROTECT, null=True)
 
     def __str__(self):

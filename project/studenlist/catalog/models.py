@@ -80,7 +80,7 @@ class Comment(models.Model):
 
 # Расширение стандартного пользователя
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile_of_user')
 
     ADMIN = 'admin'
     MODERATOR = 'moderator'
@@ -96,6 +96,21 @@ class Profile(models.Model):
     )
     role_of_user = models.CharField(max_length=100, choices=LOAN_ROLE, db_index=True)
     department = models.ForeignKey('Department', on_delete=models.PROTECT, null=True,blank=True)
+
+    def is_admin_or_moderator(self):
+        if self.role_of_user=='admin' or self.role_of_user=='moderator':
+            return True
+        return False
+
+    def is_not_guest(self):
+        if self.role_of_user!='guest':
+            return True
+        return False
+
+    def is_not_guest_and_mentor(self):
+        if self.role_of_user!='guest' or self.role_of_user=='mentor':
+            return True
+        return False
 
     def __str__(self):
         return self.user.__str__()

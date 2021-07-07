@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>{{ department.department_name }}
-        {% if user.is_authenticated %}
+        {% if user.profile_of_user.is_not_guest_and_mentor %}
            <a class="btn btn-default" href="{% url 'department_update' pk=department.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
            <a class="btn btn-default" href="{% url 'department_delete' pk=department.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
        {% endif %}

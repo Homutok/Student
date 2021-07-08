@@ -1,3 +1,6 @@
+from functools import wraps
+
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from ..models import Student, Profile, Department
 from django.contrib.auth.forms import UserCreationForm
@@ -17,18 +20,32 @@ def index(request):
                            'num_mentors': num_mentors})
 
 
+
+def do_not_need_to_login(function):
+    @wraps(function)
+    def wrap(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+             return function(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect('/catalog/')
+    return wrap
+
+
+@do_not_need_to_login
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
+            form.fields['username'].widget.attrs['placeholder'] = 'Введите никнейм'
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             return redirect('/catalog/')
     else:
         form = UserCreationForm()
+        form.fields['username'].widget.attrs['placeholder'] = 'Введите никнейм'
     return render(request, 'signup.html', {'form': form})
 
 

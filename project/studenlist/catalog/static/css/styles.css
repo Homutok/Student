@@ -10,3 +10,8 @@
     border: 1px solid black;
     padding: 10px;
 }
+
+.flex_form{
+    text-align: right;
+    display: inline-block;
+}

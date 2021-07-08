@@ -1,13 +1,16 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+    {% if user.profile_of_user.is_not_guest_and_mentor %}
+        <form action="" method="post">
+            {% csrf_token %}
+            <table>
+            {{ form.as_table }}
+            </table>
+            <input type="submit" value="Submit" />
 
-<form action="" method="post">
-    {% csrf_token %}
-    <table>
-    {{ form.as_table }}
-    </table>
-    <input type="submit" value="Submit" />
-
-</form>
+        </form>
+    {% else %}
+        У Вас нет доступа, тикай обратно.
+    {% endif %}
 {% endblock %}

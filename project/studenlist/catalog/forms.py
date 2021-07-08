@@ -20,5 +20,6 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = "__all__"
+        #success_url = reverse_lazy('student-detail/1')
 
 

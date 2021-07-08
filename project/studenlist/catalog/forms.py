@@ -11,8 +11,12 @@ class FilterStudentForm(forms.ModelForm):
         labels = {'student_name': 'ФИО', 'faculty': 'Факультет', 'status': 'Статус', }
 
 
-class CommentCreate(CreateView):
+class CommentForm(forms.ModelForm):
     """Добавление Комментария"""
-    model = Comment
-    fields = '__all__'
-    success_url = reverse_lazy('student')
+
+    class Meta:
+        model = Comment
+        fields = "__all__"
+        success_url = reverse_lazy('student-detail/1')
+
+

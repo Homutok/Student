@@ -13,10 +13,13 @@ class FilterStudentForm(forms.ModelForm):
 
 class CommentForm(forms.ModelForm):
     """Добавление Комментария"""
+    # def is_valid(self):
+    #
+    #     return 1
 
     class Meta:
         model = Comment
         fields = "__all__"
-        success_url = reverse_lazy('student-detail/1')
+        #success_url = reverse_lazy('student-detail/1')
 
 

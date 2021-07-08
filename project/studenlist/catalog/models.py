@@ -98,17 +98,17 @@ class Profile(models.Model):
     department = models.ForeignKey('Department', on_delete=models.PROTECT, null=True,blank=True)
 
     def is_admin_or_moderator(self):
-        if self.role_of_user=='admin' or self.role_of_user=='moderator':
+        if self.role_of_user == 'admin' or self.role_of_user == 'moderator':
             return True
         return False
 
     def is_not_guest(self):
-        if self.role_of_user!='guest':
+        if self.role_of_user != 'guest':
             return True
         return False
 
     def is_not_guest_and_mentor(self):
-        if self.role_of_user!='guest' or self.role_of_user=='mentor':
+        if self.role_of_user != 'guest' or self.role_of_user == 'mentor':
             return True
         return False
 

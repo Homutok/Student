@@ -1,13 +1,12 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+    <form method="POST" class="post-form">{% csrf_token %}
+        {% csrf_token %}
+        {{ form.student }}
+        {{ form.mentor }}
+        {{ form.comment }}
+        <button type="submit" class="save btn btn-default">Отправить</button>
+    </form>
 
-<form action="" method="post">
-    {% csrf_token %}
-    <table>
-    {{ form.as_table }}
-    </table>
-    <input type="submit" value="Submit" />
-
-</form>
 {% endblock %}

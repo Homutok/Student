@@ -1,4 +1,6 @@
 from django.urls import path, re_path
+from django.views.decorators.http import require_POST
+
 from .views import views_index, views_student, views_department, views_university
 
 

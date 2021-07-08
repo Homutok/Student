@@ -1,12 +1,16 @@
 from ..models import Student, Comment
+from ..forms import FilterStudentForm
 from django.views import generic
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import render
 from django.http import Http404
-from ..forms import FilterStudentForm
 from django.db.models import Q
+from django.urls import reverse_lazy
+from django.contrib.auth.models import User
+
 
 # Просмотр страницы с студентами
-class StudentListView(generic.ListView,generic.FormView):
+class StudentListView(generic.ListView, generic.FormView):
     model = Student
     context_object_name = 'student_list'
     template_name = '../catalog/student_list.html'
@@ -14,15 +18,13 @@ class StudentListView(generic.ListView,generic.FormView):
 
     def get_queryset(self):
         query = self.request.GET.get('q')
-        if query == None:
-            query=''
+        if query is None:
+            query = ''
         student_list = Student.objects.filter(
-            Q(student_name__icontains = query) | Q(status__icontains = query)
+            Q(student_name__icontains=query) | Q(status__icontains=query)
         )
         return student_list
-from django.db.models import Q
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+
 
 class StudentDetailView(generic.DetailView):
     model = Student
@@ -66,8 +68,7 @@ class StudentDelete(DeleteView):
 class CommentCreate(CreateView):
     """Добавление Комментария"""
     model = Comment
-    fields = ['comment']
-
+    fields = '__all__'
     success_url = reverse_lazy('student')
 
 

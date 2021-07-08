@@ -7,7 +7,7 @@ from django.http import Http404
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
-
+from ..filter import StudentFilter
 
 # Просмотр страницы с студентами
 class StudentListView(generic.ListView, generic.FormView):
@@ -72,15 +72,22 @@ class CommentCreate(CreateView):
     success_url = reverse_lazy('student')
 
 
-def filter_students(request):
-    if request.method == "POST":
-        form = FilterStudentForm(request.POST)
-        if form.is_valid():  # All validation rules pass
-            student_name = form.cleaned_data['student_name']
-            faculty = form.cleaned_data['faculty']
-            status = form.cleaned_data['status']
+class CommentDelete(DeleteView):
+    """Добавление Комментария"""
+    model = Comment
+    success_url = reverse_lazy('student')
 
-            return render(request, '../catalog/student_list.html', {'form': form})
-    else:
-        form = FilterStudentForm()
-    return render(request, '../catalog/student_list.html', {'form': form})
+
+class CommentUpdate(UpdateView):
+    """Добавление Комментария"""
+    model = Comment
+    fields = ['comment']
+    success_url = reverse_lazy('student')
+
+
+def product_list(request):
+    f = StudentFilter(request.GET, queryset=Student.objects.all())
+    return render(request,
+                  'catalog/tests.html',
+                  {'filter': f})
+

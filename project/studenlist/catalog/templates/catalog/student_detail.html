@@ -33,10 +33,13 @@
     {{student.summary}}
     <hr>
     <h3> Комментарии <a class="btn btn-default" href="{% url 'comment_create' student.id%}"><span class="glyphicon glyphicon-plus"></span></a> </h3>
-
     {% for comment in  comment_data %}
       <h5>
           ({{comment.mentor}})  {{comment}}
+          {% if user.profile_of_user.is_admin_or_moderator or comment.mentor.id == user.id%}
+          <a href="{% url 'comment_update' comment.id%}"><span class="glyphicon glyphicon-pencil"></span></a>
+          <a href="{% url 'comment_delete' comment.id%}"><span class="glyphicon glyphicon-remove"></span></a>
+          {%endif%}
 
       </h5>
     {% endfor %}

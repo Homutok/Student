@@ -29,7 +29,7 @@
           <li><a href="{% url 'university' %}">Список Университетов</a></li>
           <hr>
           {% if user.is_authenticated %}
-            <li><a href="{% url 'index' %}">Мои студенты</a></li>
+            <li><a href="{% url 'student_filter' %}">Мои студенты</a></li>
             <li><a href="{% url 'logout'%}?next={{request.path}}">Выход</a></li>
            {% else %}
             <li><a href="{% url 'login'%}?next={{request.path}}">Вход</a></li>

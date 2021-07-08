@@ -12,7 +12,9 @@
 
     <form  action="{% url 'student' %}" method="get" class="filter_students_form">
         {% csrf_token %}
-        <!--{{ form.as_p }}-->
+<!--        {{ form.student_name }}-->
+<!--        {{ form.faculty }}-->
+<!--        {{ form.status }}-->
         <input name="q" type="text" placeholder="Search...">
         <button type="submit" class="save btn btn-default">Send</button>
     </form>

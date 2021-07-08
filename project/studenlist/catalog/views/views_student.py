@@ -1,8 +1,8 @@
 from ..models import Student, Comment
-from ..forms import FilterStudentForm
+from ..forms import FilterStudentForm,CommentForm
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from django.db.models import Q
 from django.urls import reverse_lazy
@@ -26,14 +26,24 @@ class StudentListView(generic.ListView, generic.FormView):
         return student_list
 
 
-class StudentDetailView(generic.DetailView):
+class StudentDetailView(generic.DetailView, generic.FormView):
     model = Student
     context_object_name = 'student'
+    form_class = CommentForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # query = self.request.GET.get('comment')
+        # if query is None:
+        #     query="None"
         context['comment_data'] = Comment.objects.filter(student=self.object)
+        # context['comment'] = query
         return context
+
+    def form_valid(self, form):
+        form.send_email()
+        print(form)
+        return super(StudentDetailView, self).form_valid(form)
 
     def guide_detail_view(request, pk):
         try:
@@ -46,6 +56,29 @@ class StudentDetailView(generic.DetailView):
             context={'guide': student_id, }
         )
 
+
+# def StudentDetailView(request, year, month, day, student):
+#     student = Student
+#     comments = student.co comments.filter(active=True)
+#     new_comment = None
+#     if request.method == 'POST':
+#         # Комментарий был опубликован
+#         comment_form = CommentForm(data=request.POST)
+#         if comment_form.is_valid():
+#             # Создайте объект Comment, но пока не сохраняйте в базу данных
+#             new_comment = comment_form.save(commit=False)
+#             # Назначить текущий пост комментарию
+#             new_comment.post = post
+#             # Сохранить комментарий в базе данных
+#             new_comment.save()
+#     else:
+#         comment_form = CommentForm()
+#     return render(request,
+#                   'blog/post/detail.html',
+#                   {'post': post,
+#                    'comments': comments,
+#                    'new_comment': new_comment,
+#                    'comment_form': comment_form})
 
 class StudentCreate(CreateView):
     """Добавление Студента"""

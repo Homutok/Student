@@ -72,7 +72,7 @@ class Faculty(models.Model):
 class Comment(models.Model):
     comment = models.CharField(max_length=300, db_index=True)
     mentor = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    student = models.ForeignKey('Student', on_delete=models.PROTECT, null=True)
+    student = models.ForeignKey('Student', on_delete=models.PROTECT, null=True,related_name='comment_for_student')
 
     def __str__(self):
         return self.comment

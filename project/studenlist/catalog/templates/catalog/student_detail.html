@@ -37,8 +37,12 @@
     {% for comment in  comment_data %}
       <h5>
           ({{comment.mentor}})  {{comment}}
-
       </h5>
     {% endfor %}
-
+    <form  action="{% url 'student-detail' user.id %}" method="get">
+        {% csrf_token %}
+        {{ form.comment }}
+        <button type="submit" class="save btn btn-default">Send</button>
+    </form>
+   1 {{ comment }}
 {% endblock %}

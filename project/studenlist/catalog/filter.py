@@ -4,11 +4,9 @@ from .models import Student
 
 EMPTY_CHOICE = ('', '---------')
 
-
 class StudentFilter(django_filters.FilterSet):
     class Meta:
         model = Student
-        #mentor = django_filters.CharFilter(lookup_expr='icontains')
         fields = ['student_name', 'status']
 
     def __init__(self, *args, **kwargs):

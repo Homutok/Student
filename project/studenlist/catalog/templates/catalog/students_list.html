@@ -1,0 +1,29 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block jsblock %}
+    <script type="text/javascript" src="{% static 'js/filter_students.js' %}" defer></script>
+{% endblock %}
+{% block content %}
+    <h1>Список студентов
+        {% if user.profile_of_user.is_not_guest %}
+            <a class="btn btn-default" href="{% url 'student_create' %}"><span class="glyphicon glyphicon-plus"></span></a>
+        {% endif %}
+    </h1>
+    <form method="get">
+        Имя студента:{{filter.form.student_name}}<br>
+        Статус:{{filter.form.status}}
+<!--        {{filter.form.as_p}}-->
+        <input type="submit" />
+    </form>
+    {% if filter.qs  %}
+    <div class = "student_list">
+        {% for obj in filter.qs %}
+            <ul>
+                <li><h4><a href="{{ obj.get_absolute_url }}">{{ obj.student_name }}</a> - {{ obj.get_status_display }}<br /></h4></li>
+            </ul>
+        {% endfor %}
+    {%else%}
+        Таких студентов нет :(
+    {%endif%}
+{% endblock %}
+# Create your tests here.

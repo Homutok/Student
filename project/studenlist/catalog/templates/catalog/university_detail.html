@@ -10,9 +10,9 @@
 
 <div id="faculty_list_of_university">Список факультетов</div>
     <ui>
-        {% for facylty in university.faculty_of_university.all %}
+        {% for faculty in university.faculty_of_university.all %}
             <li>
-                {{ facylty.faculty_name }}
+                <a href="{{ faculty.get_absolute_url }}">{{ faculty.faculty_name }}</a>
             </li>
         {% endfor %}
     </ui>

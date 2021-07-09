@@ -3,6 +3,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
+
 # Просмотр списка университетов
 class UniversityListView(generic.ListView):
     model = University
@@ -22,9 +23,11 @@ class UniversityCreate(CreateView):
     model = University
     fields = '__all__'
 
+
 class UniversityUpdate(UpdateView):
     model = University
     fields = '__all__'
+
 
 class UniversityDelete(DeleteView):
     model = University

@@ -3,7 +3,7 @@ from django.shortcuts import reverse
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-import datetime
+import datetime 
 
 
 # Модель студента
@@ -64,6 +64,9 @@ class Faculty(models.Model):
     faculty_name = models.CharField(max_length=200, db_index=True)
     university = models.ForeignKey('University', related_name='faculty_of_university', on_delete=models.PROTECT,null=True,)
 
+    def get_absolute_url(self):
+        return reverse('student_faculty', args=[str(self.id)])
+
     def __str__(self):
         return '%s (%s)' % (self.faculty_name, self.university)
 
@@ -80,7 +83,7 @@ class Comment(models.Model):
 
 # Расширение стандартного пользователя
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile_of_user')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile_of_user')
 
     ADMIN = 'admin'
     MODERATOR = 'moderator'

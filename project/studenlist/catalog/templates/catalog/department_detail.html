@@ -11,5 +11,27 @@
     <div id="faculty_list_of_university">
     {{ department.summary }}
     </div>
+    <hr>
+    <h2>Студенты</h2>
+    {%if student_data %}
+    <ul>
+        {%for student in student_data %}
+        <li><a href="{{ student.get_absolute_url }}">{{student.student_name}}</a></li>
+        {%endfor%}
+    </ul>
+    {%else%}
+        Студентов в этом отделе нет (
+    {%endif%}
+    <hr>
+    <h2>Пользователи</h2>
+    {%if user_data %}
+    <ul>
+        {%for user in user_data %}
+            <li>{{user.user}}</li>
+        {%endfor%}
+    </ul>
+    {%else%}
+        Обычных пользователей в это отделе нет (
+    {%endif%}
 
 {% endblock %}

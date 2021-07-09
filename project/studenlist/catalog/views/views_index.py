@@ -20,7 +20,6 @@ def index(request):
                            'num_mentors': num_mentors})
 
 
-
 def do_not_need_to_login(function):
     @wraps(function)
     def wrap(request, *args, **kwargs):

@@ -16,7 +16,12 @@ urlpatterns += [
     re_path(r'^student/create/$', views_student.StudentCreate.as_view(), name='student_create'),
     re_path(r'^student/(?P<pk>\d+)/update/$', views_student.StudentUpdate.as_view(), name='student_update'),
     re_path(r'^student/(?P<pk>\d+)/delete/$', views_student.StudentDelete.as_view(), name='student_delete'),
-    re_path(r'^list$', views_student.product_list, name='student_filter')
+]
+urlpatterns +=[
+    re_path(r'^my_list$', views_student.my_student_list, name='my_student_filter'),
+    re_path(r'^all_list$', views_student.student_list, name='student_filter'),
+    re_path(r'^faculty_list/(?P<pk>\d+)$', views_student.faculty_student_list, name='student_faculty'),
+    re_path(r'^department_list/(?P<pk>\d+)$', views_student.department_student_list, name='student_department'),
 ]
 urlpatterns += [
     re_path(r'^student/(?P<pk>\d+)/comment/$', views_student.CommentCreate.as_view(), name='comment_create'),

@@ -1,4 +1,4 @@
-from ..models import Department
+from ..models import Department, Profile, Student
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -17,13 +17,22 @@ class DepartmentDetailView(generic.DetailView):
     model = Department
     template_name = '../templates/catalog/department_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['student_data'] = Student.objects.filter(department=self.object)
+        context['user_data'] = Profile.objects.filter(department=self.object)
+        return context
+
+
 class DepartmentCreate(CreateView):
     model = Department
     fields = '__all__'
 
+
 class DepartmentUpdate(UpdateView):
     model = Department
     fields = '__all__'
+
 
 class DepartmentDelete(DeleteView):
     model = Department

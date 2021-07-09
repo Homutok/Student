@@ -1,6 +1,6 @@
 import urllib
 
-from ..models import Student, Comment,Profile
+from ..models import Student, Comment,Profile, Faculty, Department
 from ..forms import FilterStudentForm,CommentForm
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -115,9 +115,32 @@ class CommentUpdate(UpdateView):
     success_url = reverse_lazy('student')
 
 
-def product_list(request):
+def student_list(request):
     f = StudentFilter(request.GET, queryset=Student.objects.all())
     return render(request,
-                  'catalog/tests.html',
+                  'catalog/students_list.html',
                   {'filter': f})
 
+
+def my_student_list(request):
+    query = request.user
+    f = StudentFilter(request.GET, queryset=Student.objects.filter(mentor__user=query))
+    return render(request,
+                  'catalog/students_list.html',
+                  {'filter': f})
+
+
+def faculty_student_list(request, pk):
+    query = get_object_or_404(Faculty, pk=pk)
+    f = StudentFilter(request.GET, queryset=Student.objects.filter(faculty=query))
+    return render(request,
+                  'catalog/students_list.html',
+                  {'filter': f})
+
+
+def department_student_list(request, pk):
+    query = get_object_or_404(Department, pk=pk)
+    f = StudentFilter(request.GET, queryset=Student.objects.filter(department=query))
+    return render(request,
+                  'catalog/students_list.html',
+                  {'filter': f})

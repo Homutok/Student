@@ -37,6 +37,8 @@
     {% for comment in  student.comment_for_student.all %}
       <h5>
           ({{comment.mentor}})  {{comment}}
+          <a href="{% url 'comment_update' pk=comment.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+          <a href="{% url 'comment_delete' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
       </h5>
     {% endfor %}
     <form  action="{% url 'student-detail' student.id %}" method="post">

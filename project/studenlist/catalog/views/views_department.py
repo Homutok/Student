@@ -1,3 +1,4 @@
+from ..forms import DepartmentForm
 from ..models import Department, Profile, Student
 from ..forms import DepartmentForm
 from ..models import Department
@@ -30,8 +31,12 @@ class DepartmentCreate(CreateView):
     model = Department
     form_class = DepartmentForm
 
+    form_class = DepartmentForm
+
 class DepartmentUpdate(UpdateView):
     model = Department
+    form_class = DepartmentForm
+
     form_class = DepartmentForm
 
 class DepartmentDelete(DeleteView):

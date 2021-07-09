@@ -1,5 +1,7 @@
 import urllib
 
+from ..models import Student, Comment,Profile , Faculty, Department
+from ..forms import FilterStudentForm, CommentForm, StudentForm
 from ..models import Student, Comment,Profile, Faculty, Department
 from ..forms import FilterStudentForm,CommentForm
 from ..models import Student, Comment,Profile

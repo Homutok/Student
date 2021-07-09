@@ -5,7 +5,6 @@ from .views import views_index, views_student, views_department, views_universit
 
 
 urlpatterns = [
-    # path('', views_index.index, name='index'),
     re_path(r'^$', views_index.indexView.as_view(), name='index'),
 ]
 urlpatterns += [

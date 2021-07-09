@@ -2,6 +2,8 @@ from functools import wraps
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.views.generic import TemplateView
+
 from ..models import Student, Profile, Department
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
@@ -10,15 +12,16 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login, authenticate
 
 
-def index(request):
-    num_working_student = Student.objects.filter(status__exact='study').count()
-    num_department = Department.objects.all().count()
-    num_mentors = Profile.objects.filter(role_of_user__icontains='mentor').count()
-    return render(request, 'index.html',
-                  context={'num_working_student': num_working_student,
-                           'num_department': num_department,
-                           'num_mentors': num_mentors})
 
+class indexView(TemplateView):
+    template_name = "index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['num_working_student'] = Student.objects.filter(status__exact='study').count()
+        context['num_department'] = Department.objects.all().count()
+        context['num_mentors'] = Profile.objects.filter(role_of_user__icontains='mentor').count()
+        return context
 
 
 def do_not_need_to_login(function):

@@ -1,7 +1,9 @@
+from ..forms import UniversityForm
 from ..models import University
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+
 
 # Просмотр списка университетов
 class UniversityListView(generic.ListView):
@@ -20,11 +22,13 @@ class UniversityDetailView(generic.DetailView):
 
 class UniversityCreate(CreateView):
     model = University
-    fields = '__all__'
+    form_class = UniversityForm
+
 
 class UniversityUpdate(UpdateView):
     model = University
-    fields = '__all__'
+    form_class = UniversityForm
+
 
 class UniversityDelete(DeleteView):
     model = University

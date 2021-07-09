@@ -1,13 +1,13 @@
 import urllib
 
 from ..models import Student, Comment,Profile
-from ..forms import FilterStudentForm,CommentForm
+from ..forms import FilterStudentForm, CommentForm, StudentForm
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, QueryDict
 from django.db.models import Q
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.models import User
 from ..filter import StudentFilter
 
@@ -27,66 +27,60 @@ class StudentListView(generic.ListView, generic.FormView):
         )
         return student_list
 
+    # def get_context_data(self, *, object_list=None, **kwargs):
+    #     self.view = StudentDetailView.as_view
 
-# class StudentDetailView(generic.DetailView, generic.FormView):
-#     model = Student
-#     context_object_name = 'student'
-#     form_class = CommentForm
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         # query = self.request.GET.get('comment')
-#         # if query is None:
-#         #     query="None"
-#         context['comment_data'] = Comment.objects.filter(student=self.object)
-#         # context['comment'] = query
-#         return context
-#
-#     def form_valid(self, form):
-#         form.send_email()
-#         print(form)
-#         return super(StudentDetailView, self).form_valid(form)
-#
-#     def guide_detail_view(request, pk):
-#         try:
-#             student_id = Student.objects.get(pk=pk)
-#         except Student.DoesNotExist:
-#             raise Http404(" Записи не сщуествет ¯\_(ツ)_/¯ ")
-#         return render(
-#             request,
-#             '../catalog/student_detail.html',
-#             context={'guide': student_id, }
-#         )
+class StudentDetailView(generic.DetailView, generic.FormView):
+    model = Student
+    context_object_name = 'student'
+    form_class = CommentForm
 
-
-def StudentDetailView(request, pk):
-    student = get_object_or_404(Student, pk=pk)
-
-    if request.method == 'POST':
-        custom_data = {'comment': request.POST['comment'], 'mentor': str(request.user.id), 'student': pk}
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        custom_data = {'comment': request.POST['comment'], 'mentor': str(request.user.id), 'student': self.object.id}
         query_str = urllib.parse.urlencode(custom_data, doseq=False)
         custom_query_dict = QueryDict(query_str)
+        # form = self.get_form()
         comment_form = CommentForm(data=custom_query_dict)
         if comment_form.is_valid():
             new_comment = comment_form.save(commit=False)
             new_comment.save()
-        print(request.POST)
-    comment_form = CommentForm()
-    return render(request,
-                  'catalog/student_detail.html',
-                  {'student': student,
-                   'comment_form': comment_form})
+            return self.form_valid(comment_form)
+        else:
+            return self.form_invalid(comment_form)
+
+    def get_success_url(self):
+        return self.object.get_absolute_url()
+
+    def get_context_data(self, **kwargs):
+        # self.view = StudentDetailView.as_view()
+        context = super().get_context_data(**kwargs)
+        context['comment_data'] = Comment.objects.filter(student=self.object)
+        return context
+
+    def guide_detail_view(request, pk):
+        try:
+            student_id = Student.objects.get(pk=pk)
+        except Student.DoesNotExist:
+            raise Http404(" Записи не сщуествет ¯\_(ツ)_/¯ ")
+        return render(
+            request,
+            '../catalog/student_detail.html',
+            context={'guide': student_id, }
+        )
+
+
 
 class StudentCreate(CreateView):
     """Добавление Студента"""
     model = Student
-    fields = '__all__'
+    form_class = StudentForm
 
 
 class StudentUpdate(UpdateView):
     """Редактирование Студента"""
     model = Student
-    fields = '__all__'
+    form_class = StudentForm
 
 
 class StudentDelete(DeleteView):
@@ -120,4 +114,3 @@ def product_list(request):
     return render(request,
                   'catalog/tests.html',
                   {'filter': f})
-

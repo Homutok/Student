@@ -37,8 +37,10 @@
     {% for comment in  student.comment_for_student.all %}
       <h5>
           ({{comment.mentor}})  {{comment}}
+          {% if user.profile_of_user.is_admin_or_moderator or comment.mentor.id == user.id%}
           <a href="{% url 'comment_update' pk=comment.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
           <a href="{% url 'comment_delete' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+          {%endif%}
       </h5>
     {% endfor %}
     {% if user.is_authenticated %}

@@ -34,15 +34,14 @@
     <hr>
     <h3> Комментарии <a class="btn btn-default" href="{% url 'comment_create' student.id%}"><span class="glyphicon glyphicon-plus"></span></a> </h3>
 
-    {% for comment in  comment_data %}
+    {% for comment in  student.comment_for_student.all %}
       <h5>
           ({{comment.mentor}})  {{comment}}
       </h5>
     {% endfor %}
-    <form  action="{% url 'student-detail' user.id %}" method="get">
+    <form  action="{% url 'student-detail' student.id %}" method="post">
         {% csrf_token %}
-        {{ form.comment }}
+        {{ comment_form.comment }}
         <button type="submit" class="save btn btn-default">Send</button>
     </form>
-   1 {{ comment }}
 {% endblock %}

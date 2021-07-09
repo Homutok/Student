@@ -1,3 +1,4 @@
+from ..forms import UniversityForm
 from ..models import University
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -21,12 +22,14 @@ class UniversityDetailView(generic.DetailView):
 
 class UniversityCreate(CreateView):
     model = University
-    fields = '__all__'
+    form_class = UniversityForm
+
 
 
 class UniversityUpdate(UpdateView):
     model = University
-    fields = '__all__'
+    form_class = UniversityForm
+
 
 
 class UniversityDelete(DeleteView):

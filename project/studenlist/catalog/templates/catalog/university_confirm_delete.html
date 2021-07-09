@@ -2,13 +2,13 @@
 
 {% block content %}
     {% if user.profile_of_user.is_not_guest_and_mentor %}
-        <h1>Delete University</h1>
+        <h1>Удалить запись об учебном заведении</h1>
 
-        <p>Are you sure you want to delete the university: {{ university }}?</p>
+        <p>Вы уверены, что ходите удалить запись об учебном заведении: {{ university }}?</p>
 
         <form action="" method="POST">
           {% csrf_token %}
-          <input type="submit" value="Yes, delete." />
+          <input type="submit" value="Да, удалить." />
         </form>
     {% else %}
         У Вас нет доступа, тикай обратно.

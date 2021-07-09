@@ -1,25 +1,22 @@
 import urllib
-
-from ..models import Student, Comment,Profile , Faculty, Department
-from ..forms import FilterStudentForm, CommentForm, StudentForm
-from ..models import Student, Comment,Profile, Faculty, Department
-from ..forms import FilterStudentForm,CommentForm
-from ..models import Student, Comment,Profile
-from ..forms import FilterStudentForm, CommentForm, StudentForm
+from .models import Student, Comment
+from university.models import Faculty
+from departments.models import Department
+from .forms import FilterStudentForm, CommentForm, StudentForm
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.http import Http404, QueryDict
 from django.db.models import Q
-from django.urls import reverse_lazy, reverse
-from django.contrib.auth.models import User
-from ..filter import StudentFilter
+from django.urls import reverse_lazy
+from .filter import StudentFilter
+
 
 # Просмотр страницы с студентами
 class StudentListView(generic.ListView, generic.FormView):
     model = Student
     context_object_name = 'student_list'
-    template_name = '../catalog/student_list.html'
+    template_name = '../student_list.html'
     form_class = FilterStudentForm
 
     def get_queryset(self):
@@ -69,7 +66,7 @@ class StudentDetailView(generic.DetailView, generic.FormView):
             raise Http404(" Записи не сщуествет ¯\_(ツ)_/¯ ")
         return render(
             request,
-            '../catalog/student_detail.html',
+            '../student_detail.html',
             context={'guide': student_id, }
         )
 

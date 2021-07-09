@@ -1,0 +1,37 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>{{ department.department_name }}
+        {% if user.profile_of_user.is_not_guest_and_mentor %}
+           <a class="btn btn-default" href="{% url 'department_update' pk=department.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+           <a class="btn btn-default" href="{% url 'department_delete' pk=department.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+       {% endif %}
+    </h1>
+    <h2>Описание</h2>
+    <div id="faculty_list_of_university">
+        {{ department.summary }}
+    </div>
+    <hr>
+    <h2>Студенты</h2>
+    {%if student_data %}
+    <ul>
+        {%for student in student_data %}
+        <li><a href="{{ student.get_absolute_url }}">{{student.student_name}}</a></li>
+        {%endfor%}
+    </ul>
+    {%else%}
+        Студентов в этом отделе нет (
+    {%endif%}
+    <hr>
+    <h2>Пользователи</h2>
+    {%if user_data %}
+    <ul>
+        {%for user in user_data %}
+            <li>{{user.user}}</li>
+        {%endfor%}
+    </ul>
+    {%else%}
+        Обычных пользователей в это отделе нет (
+    {%endif%}
+
+{% endblock %}

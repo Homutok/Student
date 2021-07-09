@@ -1,5 +1,5 @@
-from ..forms import UniversityForm
-from ..models import University
+from .forms import UniversityForm
+from .models import University
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy

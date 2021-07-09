@@ -23,6 +23,9 @@ from django.urls import include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('catalog/', include('catalog.urls')),
+    path('student/', include('student.urls')),
+    path('departments/', include('departments.urls')),
+    path('university/', include('university.urls')),
     path('', RedirectView.as_view(url='/catalog/', permanent=True)),
     path('accounts/', include('django.contrib.auth.urls')),
 ]

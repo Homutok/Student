@@ -1,6 +1,6 @@
 import django_filters
 from django_filters.filters import ChoiceFilter
-from .models import Student
+from project.studenlist.catalog.models import Student
 
 EMPTY_CHOICE = ('', '---------')
 

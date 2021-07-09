@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Список отделов
+         {% if user.profile_of_user.is_not_guest_and_mentor  %}
+            <a class="btn btn-default"  title="create new department" href="{% url 'department_create' %}" class="top-menu"><span class="glyphicon glyphicon-plus" ></span></a>
+       {% endif %}
+    </h1>
+
+    {% if department_list %}
+    <ul>
+
+      {% for department in department_list %}
+      <li>
+        <a href="{{ department.get_absolute_url }}">{{ department.department_name }}</a>
+      </li>
+      {% endfor %}
+
+    </ul>
+    {% else %}
+      <p>Отделов нет.</p>
+    {% endif %}
+{% endblock %}

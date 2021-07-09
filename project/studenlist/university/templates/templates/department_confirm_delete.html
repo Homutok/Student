@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    {% if user.profile_of_user.is_not_guest_and_mentor %}
+        <h1>Удалить отдел</h1>
+
+        <p>Вы уверены, что хотите удалить отдел: {{ department }}?</p>
+
+        <form action="" method="POST">
+          {% csrf_token %}
+          <input type="submit" value="Да, удалить." />
+        </form>
+    {% else %}
+        У Вас нет доступа, тикай обратно.
+    {% endif %}
+{% endblock %}

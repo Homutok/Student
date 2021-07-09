@@ -1,14 +1,13 @@
 from functools import wraps
-
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django.views.generic import TemplateView
-
-from ..models import Student, Profile, Department
+from .models import Profile
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from student.models import Student
+from departments.models import Department
+from django.views.generic.edit import UpdateView
 from django.contrib.auth import login, authenticate
 
 

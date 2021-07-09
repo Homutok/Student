@@ -44,7 +44,7 @@ class Student(models.Model):
         ordering = ['student_name']
 
     def get_absolute_url(self):
-        return reverse('student-detail', args=[str(self.id)])
+        return reverse('student_detail', args=[str(self.id)])
 
     def __str__(self):
         return self.student_name
